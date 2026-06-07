@@ -1,0 +1,59 @@
+﻿@page "/registrationform"
+@using Application02.Models
+@rendermode InteractiveServer
+
+<div class="container mt-5">
+    <div class="card col-md-6 mx-auto shadow-sm border-success">
+        <div class="card-header bg-success text-white text-center">
+            <h4 class="mb-0">Application 2: Validated Registration Form</h4>
+        </div>
+        <div class="card-body p-4">
+
+            <!-- EditForm handles the validation lifecycle -->
+            <EditForm Model="@userModel" OnValidSubmit="HandleValidSubmit">
+                <!-- This component activates DataAnnotations validation rules -->
+                <DataAnnotationsValidator />
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">First Name:</label>
+                    <InputText class="form-control" @bind-Value="userModel.FirstName" placeholder="Enter first name" />
+                    <ValidationMessage For="@(() => userModel.FirstName)" class="text-danger small" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Last Name:</label>
+                    <InputText class="form-control" @bind-Value="userModel.LastName" placeholder="Enter last name" />
+                    <ValidationMessage For="@(() => userModel.LastName)" class="text-danger small" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Email Address:</label>
+                    <InputText class="form-control" @bind-Value="userModel.Email" placeholder="user@example.com" />
+                    <ValidationMessage For="@(() => userModel.Email)" class="text-danger small" />
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 fw-bold">Submit Registration</button>
+            </EditForm>
+
+            <!-- Success Message Panel -->
+            @if (isSubmissionSuccessful)
+            {
+                <div class="alert alert-success mt-4 text-center" role="alert">
+                    <h5 class="alert-heading fw-bold">Form Submitted Successfully!</h5>
+                    <p class="mb-0">Welcome, @userModel.FirstName @userModel.LastName! All validations passed seamlessly.</p>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@code {
+    private UserProfileModel userModel = new();
+    private bool isSubmissionSuccessful = false;
+
+    private void HandleValidSubmit()
+    {
+        isSubmissionSuccessful = true;
+    }
+}
